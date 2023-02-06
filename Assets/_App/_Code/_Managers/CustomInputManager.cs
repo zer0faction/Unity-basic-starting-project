@@ -4,18 +4,32 @@ using UnityEngine;
 
 public class CustomInputManager : MonoBehaviour
 {
+    #region SingleTon
+    public static CustomInputManager Instance;
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+        DontDestroyOnLoad(this);
+    }
+    #endregion
+
     [Header("Input settings")]
     [SerializeField] private float controllerAxisMin = .35f;
 
-    private List<IInputReader> _inputReaders;
-
-    private void Start()
-    {
-        _inputReaders = new List<IInputReader>();
-    }
+    private IInputReader _inputReader;
 
     private void Update()
     {
+        if (_inputReader == null)
+            return;
+
         float inputX = Input.GetAxisRaw("Horizontal");
         float inputY = Input.GetAxisRaw("Vertical");
 
@@ -35,9 +49,11 @@ public class CustomInputManager : MonoBehaviour
             y = (up - down),
         };
 
-        foreach (IInputReader inputReader in _inputReaders)
-        {
-            inputReader.ReceiveButtonInput(buttonInputData);
-        }
+        _inputReader.ReceiveButtonInput(buttonInputData);
+    }
+
+    public void SetCurrentInputReader(IInputReader inputReader)
+    {
+        _inputReader = inputReader;
     }
 }
