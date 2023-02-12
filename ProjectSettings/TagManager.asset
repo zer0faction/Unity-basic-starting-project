@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - SaveLoadManager
+  - SceneManager
+  - CustomInputManager
   layers:
   - Default
   - TransparentFX
