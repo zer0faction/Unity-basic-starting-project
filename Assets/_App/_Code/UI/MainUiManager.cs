@@ -11,11 +11,11 @@ public class MainUiManager : Singleton<MainUiManager>
     [Header("References to other GameObjects/Components")]
     [SerializeField] private List<UiController> _uiControllers;
 
-    /*private void Start()
+    private void Start()
     {
-        foreach(var uiController in _uiControllers)
+        foreach(var uiController in _uiControllers.Where(x => x.Index != 0))
             uiController.CanvasRenderer.enabled = false;
-    }*/
+    }
 
     public void SwitchToController(UiController controllerFrom, int indexControllerTo)
     {
